@@ -61,13 +61,14 @@ def create_spend_chart(categories):
         spent.append(category.get_all_withdrawls())
 
     for amount in spent:
-        percentage = round((amount / sum(spent)), 1) * 100
+        total = sum(spent)
+        percentage = round((amount / total) * 100)
         percentages.append(percentage)
 
     title = "Percentage spent by category\n"
 
     graph = ""
-
+    # print(percentages)
     for interval in range(100, -10, -10):
         graph += str(interval).rjust(3) + "| "
         for percent in percentages:
@@ -82,16 +83,10 @@ def create_spend_chart(categories):
 
     # find max name len
     maxx_name_len = 0
-    maxx_name = None
-    # print(len(categories))
     for category in categories:
         name = category.category_name
         if len(name) > maxx_name_len:
             maxx_name_len = len(name)
-            maxx_name = name
-
-    # print(maxx_name_len)
-    # print(maxx_name)
 
     vertical_names = ""
     for i in range(maxx_name_len):
@@ -104,6 +99,5 @@ def create_spend_chart(categories):
             else:
                 vertical_names += " " * 3
 
-    # graph = graph.rstrip() + "\n"
     vertical_names = vertical_names.rstrip("\n")
     return f"{title}{graph}{vertical_names}"
